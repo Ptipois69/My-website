@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCS-Collège</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #6ce633;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
+    <link href='https://fullcalendar.io/releases/fullcalendar/3.10.2/fullcalendar.min.css' rel='stylesheet' />
+    <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/moment.min.js'></script>
+    <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/lib/jquery.min.js'></script>
+    <script src='https://fullcalendar.io/releases/fullcalendar/3.10.2/fullcalendar.min.js'></script>
+</head>
+<body>
+    <header>
+        <h1>Bienvenu au collège PCS</h1>
+    </header>
+    <main>
+        <p>This is the main content of the website.</p>
+        <div id="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="login()">Login</button>
+        </div>
+        <div id="main-content" style="display:none;">
+            <p>Welcome, <span id="user-name"></span>!</p>
+            <div id="admin-content" style="display:none;">
+                <p>Admin content goes here.</p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 My Website</p>
+    </footer>
+    <script>
+        // Dummy user data with roles
+        const users = {
+            'user1': { password: 'password1', role: 'user' },
+            'admin': { password: 'adminpass', role: 'admin' }
+        };
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (users[username] && users[username].password === password) {
+                localStorage.setItem('loggedIn', 'true');
+                localStorage.setItem('username', username);
+                localStorage.setItem('role', users[username].role);
+                showContent();
+            } else {
+                alert('Invalid username or password');
+            }
+        }
+
+        function showContent() {
+            const loggedIn = localStorage.getItem('loggedIn');
+            const role = localStorage.getItem('role');
+            if (loggedIn === 'true') {
+                document.getElementById('login-form').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                if (role === 'admin') {
+                    document.getElementById('admin-content').style.display = 'block';
+                } else {
+                    document.getElementById('admin-content').style.display = 'none';
+                }
+            } else {
+                document.getElementById('login-form').style.display = 'block';
+                document.getElementById('main-content').style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', showContent);
+    </script>
+</body>
+</html>
